@@ -1,0 +1,3988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Editor Portfolio</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    background: #0a0a0a;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* ================= SCROLL REVEAL (fade + rise in as sections enter view) ================= */
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(46px);
+    transition: opacity 0.9s cubic-bezier(0.25,0.7,0.35,1),
+                transform 0.9s cubic-bezier(0.25,0.7,0.35,1);
+  }
+
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* ================= HERO (dots only here) ================= */
+
+  .hero-wrap {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+
+  #dots {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #f5f2ee;
+    max-width: 900px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title .accent {
+    color: #f0645a;
+  }
+
+  .hero-subtitle {
+    margin-top: 28px;
+    max-width: 560px;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.6;
+    color: #9a9a9a;
+  }
+
+  .hero-btn {
+    margin-top: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #16161a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #f5f2ee;
+    padding: 16px 30px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+
+  .hero-btn:hover {
+    background: #1f1f24;
+    transform: translateY(-2px);
+  }
+
+  .arrow {
+    color: #f0645a;
+    transition: transform 0.25s ease;
+  }
+
+  .hero-btn:hover .arrow {
+    transform: translateX(4px);
+  }
+
+
+  /* ================= PARALLAX SECTION (glassmorphism) ================= */
+
+  .parallax-section {
+    position: relative;
+    overflow: hidden;
+    background: #0a0605;
+    padding: 90px 8vw;
+  }
+
+  .parallax-section::before,
+  .parallax-section::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 120px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .parallax-section::before {
+    top: 0;
+    background: linear-gradient(to bottom, #0a0a0a, transparent);
+  }
+
+  .parallax-section::after {
+    bottom: 0;
+    background: linear-gradient(to top, #0a0a0a, transparent);
+  }
+
+  .parallax-grid {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+
+  .parallax-photo-side {
+    position: relative;
+    flex: 1 1 420px;
+    aspect-ratio: 4 / 5;
+    border-radius: 18px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 100% at 30% 0%, #2a0f0d 0%, #14080a 45%, #0a0505 80%);
+  }
+
+  .parallax-photo {
+    position: absolute;
+    top: -8%;
+    left: 0;
+    width: 100%;
+    height: 116%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* replace the src above with your own photo when ready */
+
+  .parallax-overlay-layer {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+  }
+
+  .parallax-stat {
+    position: absolute;
+    z-index: 2;
+    color: #f5f2ee;
+  }
+
+  .parallax-stat .stat-num {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
+
+  .parallax-stat .stat-label {
+    font-size: 0.85rem;
+    color: rgba(245,242,238,0.7);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+  }
+
+  .parallax-stat.plain.stat-1 {
+    top: 22%;
+    left: 8%;
+  }
+
+  .parallax-stat.plain.stat-2 {
+    top: 42%;
+    left: 8%;
+  }
+
+  .parallax-stat.card.stat-3 {
+    right: 14%;
+    bottom: 3%;
+    max-width: 220px;
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+  }
+
+  .parallax-stat.card.stat-3 .stat-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 4px 0 6px;
+  }
+
+  .parallax-stat.card.stat-3 .stat-label {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .parallax-side-label {
+    position: absolute;
+    right: 4%;
+    writing-mode: vertical-rl;
+    color: rgba(245,242,238,0.3);
+    letter-spacing: 0.3em;
+    font-size: 0.8rem;
+    z-index: 2;
+  }
+
+  .parallax-side-label.top { top: 6%; }
+  .parallax-side-label.bottom { bottom: 6%; }
+
+  .parallax-text-side {
+    flex: 1 1 360px;
+  }
+
+  .parallax-text-side h2 {
+    color: #f5f2ee;
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+
+  .parallax-text-side p {
+    color: rgba(245,242,238,0.55);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 640px) {
+    .parallax-section {
+      padding: 70px 8vw;
+    }
+
+    .parallax-stat .stat-num {
+      font-size: 1.4rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #dots {
+      display: none;
+    }
+  }
+
+
+  /* ================= SHARED SECTION HEADER STYLE ================= */
+
+  .section-eyebrow {
+    text-align: center;
+    color: rgba(245,242,238,0.4);
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 14px;
+  }
+
+  .section-heading {
+    text-align: center;
+    color: #f5f2ee;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 60px;
+  }
+
+
+  /* ================= SECTION 4: EDITING STYLES ================= */
+
+  .styles-section {
+    background: #0a0a0a;
+    padding: 110px 8vw 100px;
+  }
+
+  .styles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .style-card {
+    flex: 1 1 180px;
+    max-width: 230px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 640px) {
+    .style-card {
+      max-width: none;
+    }
+  }
+
+  .style-preview {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    background: linear-gradient(
+      160deg,
+      #17100f 0%,
+      #0c0808 100%
+    );
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 14px;
+    overflow: hidden;
+    transition:
+      border-color 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .style-card:hover .style-preview {
+    border-color: rgba(240,100,90,0.5);
+    transform: translateY(-4px);
+  }
+
+  .style-preview .play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245,242,238,0.25);
+    font-size: 0.9rem;
+    z-index: 0;
+  }
+
+  .style-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60%;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.88) 0%,
+      rgba(0,0,0,0.55) 45%,
+      rgba(0,0,0,0) 100%
+    );
+  }
+
+  .style-info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 14px 14px 16px;
+  }
+
+  .style-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .style-name {
+    color: #f5f2ee;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .style-dash {
+    color: #f0645a;
+    font-weight: 700;
+  }
+
+  .style-desc {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.7rem;
+    line-height: 1.4;
+  }
+
+
+  /* ================= SECTION 5: WHAT I EDIT ================= */
+
+  .types-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 110px;
+  }
+
+  .types-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .type-card {
+    flex: 1 1 260px;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px;
+    padding: 30px;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease;
+  }
+
+  @media (max-width: 640px) {
+    .type-card {
+      max-width: none;
+    }
+  }
+
+  .type-card:hover {
+    border-color: rgba(240,100,90,0.4);
+    background: #141416;
+  }
+
+  .type-icon-slot {
+    flex: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    border: 1px solid rgba(240,100,90,0.4);
+    background: rgba(240,100,90,0.05);
+    box-shadow: 0 0 22px rgba(240,100,90,0.22), inset 0 0 14px rgba(240,100,90,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .type-icon-slot img,
+  .type-icon-slot svg {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .type-icon-slot img,
+  .type-icon-slot svg {
+    max-width: 60%;
+    max-height: 60%;
+  }
+
+  .type-body {
+    width: 100%;
+  }
+
+  .type-title {
+    color: #f5f2ee;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .type-desc {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .type-stat {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0c0c0e;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 13px 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: rgba(245,242,238,0.5);
+  }
+
+  .type-stat .stat-check {
+    color: #3ddc84;
+  }
+
+
+  /* ================= SECTION 6: FEATURE ROWS ================= */
+
+  .teaser-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 110px;
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .feature-row {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+  }
+
+  .feature-row.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .feature-visual {
+    flex: 1 1 340px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .feature-copy {
+    flex: 1 1 320px;
+  }
+
+  .feature-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,242,238,0.6);
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 14px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+  }
+
+  .feature-copy h3 {
+    color: #f5f2ee;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .feature-copy p {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 22px;
+  }
+
+  .feature-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .feature-tag {
+    font-size: 0.78rem;
+    color: rgba(245,242,238,0.7);
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 780px) {
+    .feature-row,
+    .feature-row.reverse {
+      flex-direction: column;
+    }
+
+    /* flex-basis values above (340px/320px) are meant as widths for the
+       desktop row layout; in column layout they'd be read as heights
+       instead, stretching the boxes tall. Reset them here. */
+    .feature-visual,
+    .feature-copy {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+  }
+  .ui-card {
+    width: 100%;
+    max-width: 380px;
+    background: #0c0c0e;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+
+  .ui-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .ui-tab {
+    font-size: 0.75rem;
+    padding: 7px 14px;
+    border-radius: 999px;
+    color: rgba(245,242,238,0.45);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .ui-tab.active {
+    color: #0a0a0a;
+    background: #f5f2ee;
+    font-weight: 600;
+  }
+
+  .ui-list-mask {
+    height: 150px;
+    overflow: hidden;
+    -webkit-mask-image:
+      linear-gradient(
+        to bottom,
+        transparent,
+        #000 18%,
+        #000 82%,
+        transparent
+      );
+    mask-image:
+      linear-gradient(
+        to bottom,
+        transparent,
+        #000 18%,
+        #000 82%,
+        transparent
+      );
+  }
+
+  .ui-list-track {
+    animation: scrollUp 12s linear infinite;
+  }
+
+  .ui-row {
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .ui-row .row-title {
+    font-size: 0.85rem;
+    color: #f5f2ee;
+    font-weight: 500;
+  }
+
+  .ui-row .row-status {
+    font-size: 0.72rem;
+    color: rgba(245,242,238,0.4);
+  }
+
+  @keyframes scrollUp {
+    0% {
+      transform: translateY(0);
+    }
+
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  .orb {
+    width: 60px;
+    height: 60px;
+    margin: 4px auto 16px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      #f0645a,
+      #ffb199,
+      #f0645a
+    );
+    filter: blur(6px);
+    animation:
+      orbSpin 6s linear infinite,
+      orbPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes orbSpin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes orbPulse {
+    0%,
+    100% {
+      opacity: 0.7;
+      transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1.12) rotate(180deg);
+    }
+  }
+
+  .ui-heading {
+    text-align: center;
+    color: #f5f2ee;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+
+  .ui-input {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    color: rgba(245,242,238,0.5);
+    margin-bottom: 14px;
+  }
+
+  .ui-cursor {
+    display: inline-block;
+    width: 1px;
+    height: 14px;
+    background: #f0645a;
+    margin-left: 2px;
+    animation: blinkCursor 1s steps(1) infinite;
+  }
+
+  @keyframes blinkCursor {
+    0%,
+    49% {
+      opacity: 1;
+    }
+
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .ui-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .ui-pill {
+    font-size: 0.72rem;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: rgba(245,242,238,0.45);
+    animation: pillGlow 6s ease-in-out infinite;
+  }
+
+  .ui-pill:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .ui-pill:nth-child(2) {
+    animation-delay: 1.5s;
+  }
+
+  .ui-pill:nth-child(3) {
+    animation-delay: 3s;
+  }
+
+  .ui-pill:nth-child(4) {
+    animation-delay: 4.5s;
+  }
+
+  @keyframes pillGlow {
+    0%,
+    15%,
+    100% {
+      background: rgba(255,255,255,0.05);
+      color: rgba(245,242,238,0.45);
+    }
+
+    5% {
+      background: #f0645a;
+      color: #0a0505;
+    }
+  }
+
+  .tool-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: rgba(245,242,238,0.4);
+    font-size: 0.9rem;
+    animation: scanRow 8s ease-in-out infinite;
+  }
+
+  .tool-row:last-child {
+    border-bottom: none;
+  }
+
+  .tool-row .tool-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .tool-row:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .tool-row:nth-child(2) {
+    animation-delay: 2s;
+  }
+
+  .tool-row:nth-child(3) {
+    animation-delay: 4s;
+  }
+
+  .tool-row:nth-child(4) {
+    animation-delay: 6s;
+  }
+
+  @keyframes scanRow {
+    0%,
+    12%,
+    100% {
+      color: rgba(245,242,238,0.4);
+      font-weight: 400;
+    }
+
+    3% {
+      color: #f5f2ee;
+      font-weight: 600;
+    }
+  }
+
+  .tool-row:nth-child(1) .tool-dot,
+  .tool-row:nth-child(2) .tool-dot,
+  .tool-row:nth-child(3) .tool-dot,
+  .tool-row:nth-child(4) .tool-dot {
+    animation: dotGlow 8s ease-in-out infinite;
+  }
+
+  .tool-row:nth-child(1) .tool-dot {
+    animation-delay: 0s;
+  }
+
+  .tool-row:nth-child(2) .tool-dot {
+    animation-delay: 2s;
+  }
+
+  .tool-row:nth-child(3) .tool-dot {
+    animation-delay: 4s;
+  }
+
+  .tool-row:nth-child(4) .tool-dot {
+    animation-delay: 6s;
+  }
+
+  @keyframes dotGlow {
+    0%,
+    12%,
+    100% {
+      background: currentColor;
+      opacity: 0.4;
+      box-shadow: none;
+    }
+
+    3% {
+      background: #f0645a;
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(240,100,90,0.8);
+    }
+  }
+
+
+  /* ================= SECTION 7: PROCESS ================= */
+
+  .process-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 120px;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(230px, 1fr)
+    );
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .step-card {
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .step-number {
+    color: rgba(240,100,90,0.7);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .step-anim {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+  }
+
+  .pulse-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(240,100,90,0.15);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pulse-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(240,100,90,0.5);
+    animation: pulseRing 2.2s ease-out infinite;
+  }
+
+  .pulse-icon .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f0645a;
+  }
+
+  @keyframes pulseRing {
+    0% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  .bar-anim {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar-anim::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 40%;
+    background: #f0645a;
+    border-radius: 999px;
+    animation: barSlide 2.4s ease-in-out infinite;
+  }
+
+  @keyframes barSlide {
+    0% {
+      transform: translateX(-20%);
+    }
+
+    50% {
+      transform: translateX(160%);
+    }
+
+    100% {
+      transform: translateX(-20%);
+    }
+  }
+
+  .wave-anim {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 100%;
+  }
+
+  .wave-anim span {
+    width: 4px;
+    background: #f0645a;
+    border-radius: 2px;
+    animation: waveMove 1.1s ease-in-out infinite;
+  }
+
+  .wave-anim span:nth-child(1) {
+    height: 30%;
+    animation-delay: 0s;
+  }
+
+  .wave-anim span:nth-child(2) {
+    height: 70%;
+    animation-delay: 0.1s;
+  }
+
+  .wave-anim span:nth-child(3) {
+    height: 45%;
+    animation-delay: 0.2s;
+  }
+
+  .wave-anim span:nth-child(4) {
+    height: 90%;
+    animation-delay: 0.3s;
+  }
+
+  .wave-anim span:nth-child(5) {
+    height: 55%;
+    animation-delay: 0.4s;
+  }
+
+  @keyframes waveMove {
+    0%,
+    100% {
+      transform: scaleY(0.6);
+    }
+
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  .check-anim {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(240,100,90,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .check-anim svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .check-anim path {
+    stroke: #f0645a;
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    animation: drawCheck 2s ease-in-out infinite;
+  }
+
+  @keyframes drawCheck {
+    0% {
+      stroke-dashoffset: 20;
+    }
+
+    30% {
+      stroke-dashoffset: 0;
+    }
+
+    70% {
+      stroke-dashoffset: 0;
+    }
+
+    100% {
+      stroke-dashoffset: -20;
+    }
+  }
+
+  .step-title {
+    color: #f5f2ee;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .step-desc {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  /* --- step 4 (new): visual effects sparkle icon --- */
+  .fx-anim {
+    position: relative;
+    width: 34px;
+    height: 34px;
+  }
+
+  .fx-spark {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #f0645a;
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+    animation: fxTwinkle 1.8s ease-in-out infinite;
+  }
+
+  .fx-spark.fx-1 { top: 2px; left: 2px; }
+  .fx-spark.fx-2 { top: 14px; left: 18px; width: 12px; height: 12px; animation-delay: 0.4s; }
+  .fx-spark.fx-3 { top: 22px; left: 0px; width: 6px; height: 6px; animation-delay: 0.9s; }
+
+  @keyframes fxTwinkle {
+    0%, 100% { transform: scale(0.6) rotate(0deg); opacity: 0.4; }
+    50%      { transform: scale(1.2) rotate(45deg); opacity: 1; }
+  }
+
+  /* --- step 5: compact delivery diagram card (styled like the reference) --- */
+  .step-card-wide {
+    max-width: 410px;
+    margin: 0 auto;
+    gap: 24px;
+  }
+
+  .step-badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: #f0645a;
+    background: rgba(240,100,90,0.1);
+    border: 1px solid rgba(240,100,90,0.3);
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  .step-title-lg {
+    color: #f5f2ee;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .delivery-diagram {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 14px;
+    background: #0c0c0e;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px 20px;
+  }
+
+  .diagram-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+  }
+
+  .node-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    overflow: hidden;
+  }
+
+  .node-icon.node-icon-orb {
+    background: transparent;
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  .node-icon .orb {
+    width: 34px;
+    height: 34px;
+    margin: 0;
+  }
+
+  .node-label {
+    font-size: 0.72rem;
+    color: rgba(245,242,238,0.5);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  /* three faint lines that travel left-to-right and loop */
+  .connector {
+    position: relative;
+    flex: 1;
+    max-width: 80px;
+    height: 30px;
+    margin-top: 14px; /* (58px icon height - 30px connector height) / 2, to center against the icons */
+    overflow: hidden;
+  }
+
+  .connector-line {
+    position: absolute;
+    left: -40%;
+    width: 40%;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(240,100,90,0.85), transparent);
+    filter: blur(0.4px);
+    opacity: 0;
+    animation: lineTravel 2.4s linear infinite;
+  }
+
+  .connector-line:nth-child(1) { top: 4px;  animation-delay: 0s; }
+  .connector-line:nth-child(2) { top: 14px; animation-delay: 0.5s; }
+  .connector-line:nth-child(3) { top: 24px; animation-delay: 1s; }
+
+  @keyframes lineTravel {
+    0%   { left: -40%; opacity: 0; }
+    12%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  /* right side: single icon slot that swipes through platforms, looping */
+  .platform-mask {
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 22%, #000 78%, transparent);
+  }
+
+  .platform-track {
+    animation: platformSwipe 14s ease-in-out infinite;
+  }
+
+  .platform-slot {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .platform-slot svg {
+    width: 26px;
+    height: 26px;
+    fill: #f0645a;
+  }
+
+  .platform-slot + .platform-slot {
+    margin-top: 0;
+  }
+
+  @keyframes platformSwipe {
+    0%, 14%   { transform: translateY(0%); }
+    18%, 31%  { transform: translateY(-16.6667%); }
+    35%, 48%  { transform: translateY(-33.3333%); }
+    52%, 65%  { transform: translateY(-50%); }
+    69%, 82%  { transform: translateY(-66.6667%); }
+    86%, 100% { transform: translateY(-83.3333%); }
+  }
+
+
+  /* ================= SECTION 8: BEFORE / AFTER ================= */
+
+  .ba-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 120px;
+  }
+
+  .ba-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .ba-item {
+    flex: 1 1 280px;
+    max-width: 420px;
+  }
+
+  .ba-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: #050505;
+    user-select: none;
+    touch-action: pan-y;
+  }
+
+  .ba-frame.vertical {
+    aspect-ratio: 9 / 16;
+    max-width: 260px;
+    margin: 0 auto;
+  }
+
+  .ba-frame.horizontal {
+    aspect-ratio: 16 / 9;
+  }
+
+  .ba-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: rgba(245,242,238,0.35);
+  }
+
+  .ba-panel.before {
+    background: #131315;
+  }
+
+  .ba-panel.after {
+    background: linear-gradient(
+      160deg,
+      #1c0f0d 0%,
+      #0a0505 100%
+    );
+    clip-path: inset(0 0 0 50%);
+  }
+
+  .ba-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: rgba(255,255,255,0.7);
+    transform: translateX(-1px);
+    pointer-events: none;
+  }
+
+  .ba-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f5f2ee;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ew-resize;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+    color: #0a0a0a;
+    font-size: 0.75rem;
+    gap: 3px;
+  }
+
+  .ba-tag {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #0a0505;
+    background: #f5f2ee;
+    padding: 3px 7px;
+    border-radius: 999px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .ba-tag.before-tag {
+    transform: translate(calc(-100% - 6px), -38px);
+  }
+
+  .ba-tag.after-tag {
+    transform: translate(6px, -38px);
+  }
+
+  .ba-caption {
+    text-align: center;
+    margin-top: 18px;
+    color: rgba(245,242,238,0.45);
+    font-size: 0.85rem;
+  }
+
+  .ba-frame {
+  position: relative;
+  overflow: hidden;
+}
+
+.ba-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ba-video-clip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ba-video-clip .ba-video.after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+  /* ================= SECTION 9: ABOUT ================= */
+
+  .about-section {
+    background: #0a0a0a;
+    padding: 30px 8vw 130px;
+  }
+
+  .about-grid {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    max-width: 980px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+
+  .about-photo {
+    flex: 1 1 260px;
+    aspect-ratio: 3 / 4;
+    max-width: 340px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(
+      160deg,
+      #17100f 0%,
+      #0c0808 100%
+    );
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245,242,238,0.3);
+    font-size: 0.85rem;
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s ease;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-photo.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .about-text {
+    flex: 1 1 300px;
+  }
+
+  .about-text .section-eyebrow {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .about-text h2 {
+    color: #f5f2ee;
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+
+  .about-text p {
+    color: rgba(245,242,238,0.6);
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .about-grid {
+      flex-direction: column;
+    }
+  }
+
+
+  /* ================= SECTION 10: SEE MORE WORK CTA ================= */
+
+  .more-section {
+    position: relative;
+    background: #0a0a0a;
+    padding: 60px 8vw 150px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .more-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0.16;
+    pointer-events: none;
+  }
+
+  .more-bg-track {
+    display: flex;
+    width: max-content;
+    animation: moreBgLoop 42s linear infinite;
+  }
+
+  .more-bg-set {
+    display: flex;
+    flex: none;
+    gap: 14px;
+    padding-right: 14px;
+  }
+
+  .more-bg-card {
+    flex: none;
+    width: 120px;
+    height: 213px;
+    background: #1c1c1c;
+    overflow: hidden;
+  }
+
+  .more-bg-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @keyframes moreBgLoop {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .more-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .more-section h2 {
+    color: #f5f2ee;
+    font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .more-section p {
+    color: rgba(245,242,238,0.5);
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+
+  .more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #16161a;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #f5f2ee;
+    padding: 16px 30px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      transform 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .more-btn:hover {
+    background: #1f1f24;
+    transform: translateY(-2px);
+  }
+
+  .more-btn .arrow {
+    color: #f0645a;
+    transition: transform 0.25s ease;
+  }
+
+  .more-btn:hover .arrow {
+    transform: translateX(4px);
+  }
+
+
+  /* ================= SECTION 11: PRICING ================= */
+
+  .pricing-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 130px;
+  }
+
+  .pack-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto 50px;
+  }
+
+  .pack-card {
+    flex: 1 1 260px;
+    max-width: 320px;
+    background: #111113;
+    border: 1px solid rgba(240,100,90,0.5);
+    border-radius: 22px;
+    padding: 34px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .pack-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(240,100,90,0.8);
+  }
+
+  .pack-title {
+    color: #f5f2ee;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .pack-tagline {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 26px;
+    min-height: 48px;
+  }
+
+  .pack-price {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #f5f2ee;
+    margin-bottom: 2px;
+  }
+
+  .pack-price span {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(245,242,238,0.4);
+  }
+
+  .pack-from {
+    color: rgba(245,242,238,0.35);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+
+  .pack-per-video {
+    color: #f0645a;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 26px;
+  }
+
+  .pack-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  .pack-features li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    color: rgba(245,242,238,0.75);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .pack-check,
+  .pack-bolt {
+    flex: none;
+    color: #f0645a;
+    font-size: 0.9rem;
+    margin-top: 1px;
+  }
+
+  .pack-cta {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 999px;
+    background: #f0645a;
+    color: #0a0505;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .pack-cta:hover {
+    background: #f5827a;
+    transform: translateY(-2px);
+  }
+
+  .pack-cta .arrow-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(10,5,5,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .quote-card {
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 30px;
+    transition: border-color 0.3s ease;
+  }
+
+  .quote-card:hover {
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .quote-title {
+    color: #f5f2ee;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .quote-price {
+    color: #f0645a;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .quote-desc {
+    color: rgba(245,242,238,0.5);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  /* --- Retainer Plan: signing contract animation --- */
+  .contract-paper {
+    width: 100%;
+    max-width: 280px;
+    aspect-ratio: 210 / 297;
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 30px 26px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .paper-line {
+    height: 7px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 13px;
+    flex: none;
+  }
+
+  .paper-line.w-90 { width: 90%; }
+  .paper-line.w-85 { width: 85%; }
+  .paper-line.w-80 { width: 80%; }
+  .paper-line.w-75 { width: 75%; }
+  .paper-line.w-70 { width: 70%; }
+  .paper-line.w-60 { width: 60%; }
+  .paper-line.w-50 { width: 50%; }
+  .paper-line.w-40 { width: 40%; }
+
+  .paper-line.spacer {
+    height: 0;
+    margin: 8px 0;
+    background: none;
+  }
+
+  .signature-box {
+    position: relative;
+    width: 160px;
+    max-width: 100%;
+    height: 96px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(255,255,255,0.15);
+  }
+
+  .signature-svg {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 160px;
+    height: 100px;
+    overflow: visible;
+  }
+
+  .sig-path {
+    fill: none;
+    stroke: #f0645a;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: signDraw 6.5s cubic-bezier(0.65,0,0.35,1) infinite alternate;
+  }
+
+  @keyframes signDraw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* pen keeps a fixed grip angle - only its position travels, it does not rotate/bob with the curve.
+     NOTE: offset-path uses raw px, matching the signature-svg's fixed 160x90 box 1:1,
+     so the pen and the drawn line always stay in sync. */
+  .pen-tip {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 40px;
+    height: 14px;
+    offset-path: path('M6,58 C 14,54 18,48 22,40 C 12,34 8,16 16,6 C 22,-2 30,0 28,14 C 26,30 16,46 8,58 C 2,66 0,76 6,80 C 12,84 20,78 18,66 C 16,50 16,42 34,42 C 58,42 52,14 64,4 C 72,-4 80,-2 76,12 C 72,28 58,46 46,56 C 36,64 40,72 52,68 C 66,63 78,50 92,46 C 106,42 116,50 128,44 C 136,40 140,32 144,26 C 145,25 146.4,24.6 147,25.3');
+    offset-rotate: -65deg;
+    offset-anchor: 0% 50%;
+    animation: penMove 6.5s cubic-bezier(0.65,0,0.35,1) infinite alternate;
+  }
+
+  .pen-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  @keyframes penMove {
+    to { offset-distance: 100%; }
+  }
+
+  /* ================= SECTION 12: FAQ ================= */
+
+  .faq-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 130px;
+  }
+
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .faq-item {
+    background: #111113;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 6px 26px;
+    transition: border-color 0.3s ease;
+  }
+
+  .faq-item[open] {
+    border-color: rgba(240,100,90,0.35);
+  }
+
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    color: #f5f2ee;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(240,100,90,0.12);
+    color: #f0645a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    padding-bottom: 22px;
+    padding-right: 34px;
+  }
+
+
+  /* ================= SECTION 13: FINAL CTA + FORM ================= */
+
+  .final-cta-section {
+    background: #0a0a0a;
+    padding: 20px 8vw 130px;
+  }
+
+  .cta-grid {
+    display: flex;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .cta-left,
+  .cta-right {
+    flex: 1 1 380px;
+    background: radial-gradient(140% 140% at 0% 0%, #1c0f0d 0%, #100a09 55%, #0c0808 100%);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px;
+    padding: 40px;
+  }
+
+  .cta-right { background: #111113; }
+
+  .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,242,238,0.6);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+
+  .cta-left h2 {
+    color: #f5f2ee;
+    font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .cta-left h2 .accent { color: #f0645a; }
+
+  .cta-left p {
+    color: rgba(245,242,238,0.55);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    margin-bottom: 26px;
+  }
+
+  .cta-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 30px;
+  }
+
+  .cta-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: #f5f2ee;
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .cta-check-icon {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(240,100,90,0.15);
+    color: #f0645a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  .cta-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(245,242,238,0.5);
+    font-size: 0.85rem;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cta-status .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3ddc84;
+    box-shadow: 0 0 8px rgba(61,220,132,0.6);
+  }
+
+  .cta-right-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+
+  .cta-right-header h3 {
+    color: #f5f2ee;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .cta-response-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: rgba(245,242,238,0.4);
+    letter-spacing: 0.04em;
+  }
+
+  .cta-response-note .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #3ddc84;
+  }
+
+  .contact-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+  }
+
+  .contact-method:hover {
+    border-color: rgba(240,100,90,0.45);
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-2px);
+  }
+
+  .contact-method-icon {
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #1a1a1d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f5f2ee;
+  }
+
+  .contact-method-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  .contact-method-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .contact-method-name {
+    color: #f5f2ee;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .contact-method-handle {
+    color: rgba(245,242,238,0.5);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 640px) {
+    .cta-left, .cta-right { padding: 28px; }
+  }
+
+
+  /* ================= SECTION 14: FOOTER ================= */
+
+  .site-footer {
+    background: #060404;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 60px 8vw 34px;
+  }
+
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto 46px;
+  }
+
+  .footer-brand {
+    color: #f5f2ee;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-brand span {
+    color: #f0645a;
+  }
+
+  .footer-tagline {
+    color: rgba(245,242,238,0.4);
+    font-size: 0.88rem;
+    margin-top: 8px;
+    max-width: 260px;
+    line-height: 1.6;
+  }
+
+  .footer-col-title {
+    color: rgba(245,242,238,0.4);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    color: rgba(245,242,238,0.65);
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-links a:hover {
+    color: #f0645a;
+  }
+
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    color: rgba(245,242,238,0.3);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 640px) {
+    .footer-top {
+      flex-direction: column;
+      gap: 30px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+
+<!-- ================= HERO ================= -->
+
+<div class="hero-wrap">
+
+  <canvas id="dots"></canvas>
+
+  <section class="hero">
+
+    <h1 class="hero-title">
+      Edits that make people
+      <span class="accent">stop scrolling</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      I turn raw footage into fast, scroll-stopping content for Reels, TikTok,
+      and YouTube — built for the platforms your audience actually watches.
+    </p>
+
+    <a href="#styles" class="hero-btn">
+      View my work
+      <span class="arrow">→</span>
+    </a>
+
+  </section>
+
+</div>
+
+
+<!-- ================= PARALLAX / STATS ================= -->
+
+<section class="parallax-section reveal" id="parallax">
+
+  <div class="parallax-grid">
+
+    <div class="parallax-photo-side" id="parallaxPhotoSide">
+
+      <!-- Replace this div with <img class="parallax-photo" src="your-photo.jpg" alt="">
+           once you have the photo, or set a background-image on .parallax-photo below. -->
+      <img class="parallax-photo" id="parallaxPhoto" src="pictures\my picture.jpg" alt="">
+
+      <div class="parallax-overlay-layer" id="parallaxOverlay">
+
+        <div class="parallax-stat plain stat-1">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Reels &amp; Shorts Edited</div>
+        </div>
+
+        <div class="parallax-stat plain stat-2">
+          <div class="stat-num">10M+</div>
+          <div class="stat-label">Total Views Generated</div>
+        </div>
+
+      </div>
+
+      <!-- kept out of .parallax-overlay-layer on purpose: a transformed
+           ancestor can break backdrop-filter rendering in some browsers -->
+      <div class="parallax-stat card stat-3" id="parallaxStat3">
+        <div class="stat-num">100%</div>
+        <div class="stat-title">Client Satisfaction</div>
+        <div class="stat-label">Fast turnaround, unlimited revisions</div>
+      </div>
+
+      <div class="parallax-side-label top">CRAFTED</div>
+      <div class="parallax-side-label bottom">FRAME BY FRAME</div>
+
+    </div>
+
+    <div class="parallax-text-side">
+
+      <p class="section-eyebrow" style="text-align:left;">RESULTS THAT SPEAK</p>
+
+      <h2>Edits built to perform, not just look good</h2>
+
+      <p>Every project is shaped around retention and watch time — pacing, captions, and sound design working together so people actually stay for the whole thing.</p>
+
+      <a href="#contact" class="hero-btn">
+        Get in touch
+        <span class="arrow">→</span>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+/* =========================================================
+   HERO DOTS
+   ========================================================= */
+
+const canvas = document.getElementById('dots');
+const ctx = canvas.getContext('2d');
+
+let w;
+let h;
+let cx;
+let cy;
+
+function resizeCanvas() {
+
+  const rect = canvas.parentElement.getBoundingClientRect();
+
+  w = canvas.width = rect.width;
+  h = canvas.height = rect.height;
+
+  cx = w / 2;
+  cy = h / 2;
+}
+
+resizeCanvas();
+
+window.addEventListener('resize', resizeCanvas);
+
+const dotSpacing = 15;
+const dotRadius = 3.2;
+const waveSpeed = 0.035;
+const waveLength = 55;
+
+const minOpacity = 0.15;
+const maxOpacity = 0.9;
+
+let t = 0;
+
+function drawDots() {
+
+  ctx.clearRect(0, 0, w, h);
+
+  for (let x = 0; x < w; x += dotSpacing) {
+
+    for (let y = 0; y < h; y += dotSpacing) {
+
+      const dx = x - cx;
+      const dy = y - cy;
+
+      const dist = Math.sqrt(
+        dx * dx + dy * dy
+      );
+
+      const wave =
+        Math.sin(
+          (dist / waveLength) - t
+        ) * 0.5 + 0.5;
+
+      const opacity =
+        minOpacity +
+        wave * (maxOpacity - minOpacity);
+
+      ctx.fillStyle =
+        `rgba(240, 100, 90, ${opacity})`;
+
+      ctx.beginPath();
+
+      ctx.arc(
+        x,
+        y,
+        dotRadius,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+    }
+  }
+
+  t += waveSpeed;
+
+  requestAnimationFrame(drawDots);
+}
+
+drawDots();
+
+/* =========================================================
+   PARALLAX SCROLL (text/stat boxes drift gently, always staying
+   inside the photo frame - bounded, never scrolls them out of view)
+   ========================================================= */
+
+const parallaxPhotoSide = document.getElementById('parallaxPhotoSide');
+const parallaxOverlay = document.getElementById('parallaxOverlay');
+const parallaxStat3 = document.getElementById('parallaxStat3');
+
+if (parallaxPhotoSide && parallaxOverlay) {
+
+  const maxOffset = 26; // px - hard cap, so the boxes can never drift outside the frame
+
+  function updateParallaxScroll() {
+
+    const rect = parallaxPhotoSide.getBoundingClientRect();
+    const totalRange = window.innerHeight + rect.height;
+
+    // progress: 0 when the box is just entering from below,
+    // 1 when it has fully exited past the top - always clamped to [0, 1]
+    let progress = (window.innerHeight - rect.top) / totalRange;
+    progress = Math.min(Math.max(progress, 0), 1);
+
+    // maps to a small, fixed range: -maxOffset -> +maxOffset, never more
+    const offset = (progress - 0.5) * (maxOffset * 2);
+
+    parallaxOverlay.style.transform = `translateY(${offset}px)`;
+
+    if (parallaxStat3) {
+      parallaxStat3.style.transform = `translateY(${offset}px)`;
+    }
+
+    requestAnimationFrame(updateParallaxScroll);
+  }
+
+  updateParallaxScroll();
+}
+</script>
+
+
+
+
+<!-- =========================================================
+     EDITING STYLES
+     ========================================================= -->
+
+<section class="styles-section reveal" id="styles">
+
+  <p class="section-eyebrow">
+    WHAT I EDIT
+  </p>
+
+  <h2 class="section-heading">
+    Styles I Work In
+  </h2>
+
+  <div class="styles-grid">
+
+    <div class="style-card">
+      <div class="style-preview">
+                 <video
+            class="ba-video before"
+           src="videos\vid 1.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        <div class="style-fade"></div>
+        <div class="style-info">
+          <div class="style-title-row">
+            <span class="style-name">Real Estate</span>
+            <span class="style-dash">&mdash;</span>
+          </div>
+          <div class="style-desc">Walkthrough hook, price overlay, CTA</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="style-card">
+      <div class="style-preview">
+         <video
+            class="ba-video before"
+           src="videos\vid 2.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        <div class="style-fade"></div>
+        <div class="style-info">
+          <div class="style-title-row">
+            <span class="style-name">Talking Head</span>
+            <span class="style-dash">&mdash;</span>
+          </div>
+          <div class="style-desc">Direct-to-camera, captions, quick cuts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="style-card">
+      <div class="style-preview">
+         <video
+            class="ba-video before"
+           src="videos\vid 3.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        <div class="style-fade"></div>
+        <div class="style-info">
+          <div class="style-title-row">
+            <span class="style-name">Podcast Clips</span>
+            <span class="style-dash">&mdash;</span>
+          </div>
+          <div class="style-desc">Highlight clip, waveform, captions</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="style-card">
+      <!-- put the link to your Medium sample video/file in the href below -->
+      <a href="" target="_blank" rel="noopener" class="style-preview">
+         <video
+            class="ba-video before"
+           src="videos\vid 4.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        <div class="style-fade"></div>
+        <div class="style-info">
+          <div class="style-title-row">
+            <span class="style-name">Medium</span>
+            <span class="style-dash">&mdash;</span>
+          </div>
+          <div class="style-desc">Clean cuts, color correction, simple on-screen text</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="style-card">
+      <div class="style-preview">
+         <video
+            class="ba-video before"
+           src="videos\vid 5.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        <div class="style-fade"></div>
+        <div class="style-info">
+          <div class="style-title-row">
+            <span class="style-name">Storytelling</span>
+            <span class="style-dash">&mdash;</span>
+          </div>
+          <div class="style-desc">Voiceover, b-roll, narrative pacing</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FORMATS
+     ========================================================= -->
+
+<section class="types-section reveal" id="formats">
+
+  <p class="section-eyebrow">
+    SERVICES
+  </p>
+
+  <h2 class="section-heading">
+    Formats I Deliver
+  </h2>
+
+  <div class="types-list">
+
+    <div class="type-card">
+
+      <div class="type-icon-slot">
+        <img src="pictures\icon 2.png" alt="">
+      </div>
+
+      <div class="type-body">
+
+        <div class="type-title">
+          Short-Form Content
+        </div>
+
+        <div class="type-desc">
+          Fast, punchy edits built for Reels, TikTok, and YouTube Shorts —
+          cut for retention and made to stop the scroll.
+        </div>
+
+      </div>
+
+      <div class="type-stat">
+        <span class="stat-check">✓</span>
+        READY · 1080×1920 · 0:30
+      </div>
+
+    </div>
+
+
+    <div class="type-card">
+
+      <div class="type-icon-slot">
+        <img src="pictures\icon 3.png" alt="">
+      </div>
+
+      <div class="type-body">
+
+        <div class="type-title">
+          Long-Form Content
+        </div>
+
+        <div class="type-desc">
+          Full YouTube videos and long-form content, paced and structured
+          to keep viewers watching to the end.
+        </div>
+
+      </div>
+
+      <div class="type-stat">
+        <span class="stat-check">✓</span>
+        EXPORTED · 1920×1080 · 14:20
+      </div>
+
+    </div>
+
+
+    <div class="type-card">
+
+      <div class="type-icon-slot">
+        <img src="pictures\icon 1.png" alt="">
+      </div>
+
+      <div class="type-body">
+
+        <div class="type-title">
+          Podcast &amp; Multi-Camera
+        </div>
+
+        <div class="type-desc">
+          Multi-camera podcast editing with clean switching, synced audio,
+          and clip-ready highlights for social.
+        </div>
+
+      </div>
+
+      <div class="type-stat">
+        <span class="stat-check">✓</span>
+        SYNCED · 3 CAMERAS · 42:10
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     TEASER BOXES
+     ========================================================= -->
+
+<section class="teaser-section reveal" id="teaser">
+
+  <!-- Row 1: What I Do - mockup left, copy right -->
+  <div class="feature-row">
+
+    <div class="feature-visual">
+      <div class="ui-card">
+        <div class="ui-tabs">
+          <span class="ui-tab active">All Projects</span>
+          <span class="ui-tab">In Review</span>
+        </div>
+        <div class="ui-list-mask">
+          <div class="ui-list-track">
+            <div class="ui-row">
+              <span class="row-title">Instagram Reel — Client A</span>
+              <span class="row-status">Rendering…</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">Podcast Ep. 12</span>
+              <span class="row-status">Awaiting approval</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">Medium Edit For Brayan</span>
+              <span class="row-status">Color grading</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">YouTube Long-Form</span>
+              <span class="row-status">Sound design</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">Talking Head Short</span>
+              <span class="row-status">Delivered</span>
+            </div>
+            <!-- duplicate for seamless loop -->
+            <div class="ui-row">
+              <span class="row-title">Instagram Reel — Client A</span>
+              <span class="row-status">Rendering…</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">Podcast Ep. 12</span>
+              <span class="row-status">Awaiting approval</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">Medium Edit For Brayan</span>
+              <span class="row-status">Color grading</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">YouTube Long-Form</span>
+              <span class="row-status">Sound design</span>
+            </div>
+            <div class="ui-row">
+              <span class="row-title">Talking Head Short</span>
+              <span class="row-status">Delivered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-copy">
+      <span class="feature-badge">WHAT I DO</span>
+      <h3>Every edit, tracked and organized</h3>
+      <p>Nothing gets lost in a pile of files. Every project moves through clear stages — from raw footage to review to delivery — so you always know exactly where things stand.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Client Approvals</span>
+        <span class="feature-tag">Status Updates</span>
+        <span class="feature-tag">Organized Workflow</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Row 2: How I Do It - copy left, mockup right -->
+  <div class="feature-row reverse">
+
+    <div class="feature-visual">
+      <div class="ui-card">
+        <div class="orb"></div>
+        <div class="ui-heading">What do you need edited?</div>
+        <div class="ui-input">Trim silence, add captions, export vertical<span class="ui-cursor"></span></div>
+        <div class="ui-pills">
+          <span class="ui-pill">Captions</span>
+          <span class="ui-pill">Color Grade</span>
+          <span class="ui-pill">Sound Design</span>
+          <span class="ui-pill">Export</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-copy">
+      <span class="feature-badge">HOW I DO IT</span>
+      <h3>One request, fully edited</h3>
+      <p>You send the footage and the goal — captions, color, sound design, and export are all handled as part of the same process, not billed separately.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Fast Turnaround</span>
+        <span class="feature-tag">All-Inclusive Edit</span>
+        <span class="feature-tag">Platform-Ready Export</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Row 3: What I Use - mockup left, copy right -->
+  <div class="feature-row">
+
+    <div class="feature-visual">
+      <div class="ui-card">
+        <div class="tool-row"><span class="tool-dot"></span> Premiere Pro</div>
+        <div class="tool-row"><span class="tool-dot"></span> After Effects</div>
+        <div class="tool-row"><span class="tool-dot"></span> DaVinci Resolve</div>
+        <div class="tool-row"><span class="tool-dot"></span> Photoshop</div>
+      </div>
+    </div>
+
+    <div class="feature-copy">
+      <span class="feature-badge">WHAT I USE</span>
+      <h3>Industry-standard tools, every time</h3>
+      <p>Editing, color grading, and motion graphics are done in professional software built for the job — whichever tool fits the project best.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Pro-Grade Software</span>
+        <span class="feature-tag">Consistent Quality</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROCESS
+     ========================================================= -->
+
+<section class="process-section reveal" id="process">
+
+  <p class="section-eyebrow">
+    HOW IT WORKS
+  </p>
+
+  <h2 class="section-heading">
+    From Raw Footage to Final Cut
+  </h2>
+
+  <div class="steps-grid">
+
+    <div class="step-card">
+
+      <div class="step-number">
+        01
+      </div>
+
+      <div class="step-anim">
+        <div class="pulse-icon">
+          <span class="dot"></span>
+        </div>
+      </div>
+
+      <div class="step-title">
+        Brief &amp; Footage Review
+      </div>
+
+      <div class="step-desc">
+        You send over the raw footage and goals — I review everything
+        and map out the story before touching a single cut.
+      </div>
+
+    </div>
+
+
+    <div class="step-card">
+
+      <div class="step-number">
+        02
+      </div>
+
+      <div class="step-anim">
+        <div class="bar-anim"></div>
+      </div>
+
+      <div class="step-title">
+        Rough Cut
+      </div>
+
+      <div class="step-desc">
+        The core structure comes together — pacing, sequencing,
+        and the first pass of the story from start to finish.
+      </div>
+
+    </div>
+
+
+    <div class="step-card">
+
+      <div class="step-number">
+        03
+      </div>
+
+      <div class="step-anim">
+
+        <div class="wave-anim">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+      </div>
+
+      <div class="step-title">
+        Sound Design &amp; Color
+      </div>
+
+      <div class="step-desc">
+        Audio gets mixed and cleaned, music and sound design layered in,
+        and color graded for a consistent, polished look.
+      </div>
+
+    </div>
+
+
+    <div class="step-card">
+
+      <div class="step-number">
+        04
+      </div>
+
+      <div class="step-anim">
+        <div class="fx-anim">
+          <span class="fx-spark fx-1"></span>
+          <span class="fx-spark fx-2"></span>
+          <span class="fx-spark fx-3"></span>
+        </div>
+      </div>
+
+      <div class="step-title">
+        Visual Effects
+      </div>
+
+      <div class="step-desc">
+        Motion graphics, transitions, and small effects are layered in
+        to highlight key moments and keep the energy up.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="steps-grid" style="margin-top: 24px;">
+
+    <div class="step-card step-card-wide">
+
+      <span class="step-badge">STEP 05</span>
+
+      <div class="step-title-lg">
+        Delivery &amp; Revisions
+      </div>
+
+      <div class="step-desc">
+        Final export delivered in the right format for each platform,
+        with revisions included until you're fully happy.
+      </div>
+
+      <div class="delivery-diagram">
+
+        <div class="diagram-node">
+          <div class="node-icon node-icon-orb">
+            <div class="orb"></div>
+          </div>
+          <div class="node-label">My Edits</div>
+        </div>
+
+        <div class="connector">
+          <div class="connector-line"></div>
+          <div class="connector-line"></div>
+          <div class="connector-line"></div>
+        </div>
+
+        <div class="diagram-node">
+          <div class="node-icon">
+          <div class="platform-mask">
+            <div class="platform-track">
+              <div class="platform-slot" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 2 .2 2.4.4.6.2 1 .5 1.5 1 .4.4.7.8 1 1.5.2.5.3 1.2.4 2.4.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 2-.4 2.4-.2.6-.5 1-1 1.5-.4.4-.8.7-1.5 1-.5.2-1.2.3-2.4.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-2-.2-2.4-.4-.6-.2-1-.5-1.5-1-.4-.4-.7-.8-1-1.5-.2-.5-.3-1.2-.4-2.4C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-2 .4-2.4.2-.6.5-1 1-1.5.4-.4.8-.7 1.5-1 .5-.2 1.2-.3 2.4-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1 0-1.6.2-1.9.3-.5.2-.8.4-1.2.7-.4.4-.6.7-.7 1.2-.1.4-.3 1-.3 2C3.2 8.5 3.2 8.9 3.2 12s0 3.5.1 4.7c0 1 .2 1.6.3 2 .2.5.4.8.7 1.2.4.4.7.6 1.2.7.4.1 1 .3 2 .3 1.2.1 1.5.1 4.7.1s3.5 0 4.7-.1c1 0 1.6-.2 2-.3.5-.2.8-.4 1.2-.7.4-.4.6-.7.7-1.2.1-.4.3-1 .3-2 .1-1.2.1-1.5.1-4.7s0-3.5-.1-4.7c0-1-.2-1.6-.3-2-.2-.5-.4-.8-.7-1.2-.4-.4-.7-.6-1.2-.7-.4-.1-1-.3-2-.3-1.2-.1-1.5-.1-4.7-.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4zm5.2-2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+              </div>
+              <div class="platform-slot" title="TikTok">
+                <svg viewBox="0 0 24 24"><path d="M16.7 2h-3.4v13.5c0 1.5-1.2 2.7-2.7 2.7s-2.7-1.2-2.7-2.7 1.2-2.7 2.7-2.7c.3 0 .6 0 .8.1V9.4c-.3 0-.5-.1-.8-.1-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6V8.6c1.2.9 2.7 1.4 4.3 1.4V6.6c-2.4 0-4.2-1.9-4.2-4.2V2z"/></svg>
+              </div>
+              <div class="platform-slot" title="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23 12s0-3.6-.5-5.3c-.3-1-1-1.8-2-2C18.9 4.2 12 4.2 12 4.2s-6.9 0-8.5.5c-1 .2-1.8 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1 1.8 2 2 1.6.5 8.5.5 8.5.5s6.9 0 8.5-.5c1-.2 1.8-1 2-2 .5-1.7.5-5.3.5-5.3zM9.8 15.5V8.5L15.8 12l-6 3.5z"/></svg>
+              </div>
+              <div class="platform-slot" title="X">
+                <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7.1l-5.5-7.2L4.3 22H1.2l8.1-9.3L1 2h7.3l5 6.7L18.9 2zm-1.2 18h1.9L7.4 4H5.4l12.3 16z"/></svg>
+              </div>
+              <div class="platform-slot" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M13.5 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.7-1.7H17V2.3C16.7 2.2 15.6 2 14.4 2 11.8 2 10 3.6 10 6.5V9.5H7V13h3v9h3.5z"/></svg>
+              </div>
+              <!-- duplicate of the first slot (Instagram), for a seamless loop -->
+              <div class="platform-slot" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 2 .2 2.4.4.6.2 1 .5 1.5 1 .4.4.7.8 1 1.5.2.5.3 1.2.4 2.4.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 2-.4 2.4-.2.6-.5 1-1 1.5-.4.4-.8.7-1.5 1-.5.2-1.2.3-2.4.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-2-.2-2.4-.4-.6-.2-1-.5-1.5-1-.4-.4-.7-.8-1-1.5-.2-.5-.3-1.2-.4-2.4C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-2 .4-2.4.2-.6.5-1 1-1.5.4-.4.8-.7 1.5-1 .5-.2 1.2-.3 2.4-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1 0-1.6.2-1.9.3-.5.2-.8.4-1.2.7-.4.4-.6.7-.7 1.2-.1.4-.3 1-.3 2C3.2 8.5 3.2 8.9 3.2 12s0 3.5.1 4.7c0 1 .2 1.6.3 2 .2.5.4.8.7 1.2.4.4.7.6 1.2.7.4.1 1 .3 2 .3 1.2.1 1.5.1 4.7.1s3.5 0 4.7-.1c1 0 1.6-.2 2-.3.5-.2.8-.4 1.2-.7.4-.4.6-.7.7-1.2.1-.4.3-1 .3-2 .1-1.2.1-1.5.1-4.7s0-3.5-.1-4.7c0-1-.2-1.6-.3-2-.2-.5-.4-.8-.7-1.2-.4-.4-.7-.6-1.2-.7-.4-.1-1-.3-2-.3-1.2-.1-1.5-.1-4.7-.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4zm5.2-2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="node-label">Your Platforms</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     BEFORE / AFTER
+     ========================================================= -->
+
+<section class="ba-section reveal" id="before-after">
+
+  <p class="section-eyebrow">
+    THE DIFFERENCE
+  </p>
+
+  <h2 class="section-heading">
+    Before &amp; After
+  </h2>
+
+  <div class="ba-grid">
+
+    <div class="ba-item">
+
+      <div class="ba-frame vertical" data-ba>
+
+        <video
+            class="ba-video before"
+           src="videos\project 2 raw.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        <div class="ba-panel after">
+          <video
+            class="ba-video before"
+           src="videos\project 2.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+          ></video>
+        </div>
+        
+        <div class="ba-tag before-tag">
+          BEFORE
+        </div>
+
+        <div class="ba-tag after-tag">
+          AFTER
+        </div>
+        
+        <div class="ba-divider"></div>
+
+        <div class="ba-handle">
+          ↔
+        </div>
+
+      </div>
+
+      <p class="ba-caption">
+        Vertical — Reel / Short
+      </p>
+
+    </div>
+
+
+    <div class="ba-item">
+
+      <div class="ba-frame horizontal" data-ba>
+
+        <div class="ba-panel before">
+         <video
+            class="ba-video before"
+           src="videos\project 1 raw.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        </div>
+
+        <div class="ba-panel after">
+         <video
+            class="ba-video before"
+           src="videos/project 1.mp4"
+           muted
+           loop
+           playsinline
+           autoplay
+         ></video>
+        </div>
+
+        <div class="ba-tag before-tag">
+          BEFORE
+        </div>
+
+        <div class="ba-tag after-tag">
+          AFTER
+        </div>
+
+        <div class="ba-divider"></div>
+
+        <div class="ba-handle">
+          ↔
+        </div>
+
+      </div>
+
+      <p class="ba-caption">
+        Horizontal — YouTube / Podcast
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     ABOUT
+     ========================================================= -->
+
+<section class="about-section reveal" id="about">
+
+  <div class="about-grid">
+
+    <div class="about-photo">
+      <img src="pictures\working.png" alt="">
+    </div>
+
+    <div class="about-text">
+
+      <p
+        class="section-eyebrow"
+        style="text-align:left;"
+      >
+        ABOUT ME
+      </p>
+
+      <h2>
+        I edit for the way people actually watch.
+      </h2>
+
+      <p>
+        I'm a video editor focused on short-form content for Reels,
+        TikTok, and YouTube. I care about pacing, rhythm, and the first
+        two seconds — the parts that decide whether someone keeps watching
+        or scrolls past.
+      </p>
+
+      <p>
+        Over the past few years I've worked across real estate,
+        talking-head content, podcasts, and product videos, always with
+        the same goal: make it feel effortless to watch.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     SEE MORE WORK
+     ========================================================= -->
+
+<section class="more-section reveal" id="more-work">
+
+  <div class="more-bg">
+    <div class="more-bg-track" id="moreBgTrack">
+      <div class="more-bg-set">
+      <div class="more-bg-card"><img src="pictures\samp 1.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 2.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 3.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 4.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 5.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 6.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 7.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 8.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 9.jpg" alt=""></div>
+      <div class="more-bg-card"><img src="pictures\samp 10.jpg" alt=""></div>
+      </div>
+      <!-- the duplicate set needed for the seamless loop is generated in JS below,
+           so it can never fall out of sync with the set above again -->
+    </div>
+  </div>
+
+  <div class="more-content">
+
+    <h2>
+      Want to see more?
+    </h2>
+
+    <p>
+      These are just a few highlights. If you'd like to see the full
+      library of work, just reach out.
+    </p>
+
+    <a href="#contact" class="more-btn">
+
+      See more of my work
+
+      <span class="arrow">
+        →
+      </span>
+
+    </a>
+
+  </div>
+
+</section>
+
+<script>
+  // Duplicate the image set for a seamless loop, so it can never
+  // go out of sync with the set above again.
+  const moreBgTrack = document.getElementById('moreBgTrack');
+  if (moreBgTrack) {
+    const firstSet = moreBgTrack.querySelector('.more-bg-set');
+    if (firstSet) {
+      moreBgTrack.appendChild(firstSet.cloneNode(true));
+    }
+  }
+</script>
+
+
+<!-- =========================================================
+     PRICING
+     ========================================================= -->
+
+<section class="pricing-section reveal" id="pricing">
+
+  <p class="section-eyebrow">
+    PRICING
+  </p>
+
+  <h2 class="section-heading">
+    Simple, Transparent Rates
+  </h2>
+
+  <div class="pack-grid">
+
+    <div class="pack-card">
+      <div class="pack-title">Medium</div>
+      <div class="pack-tagline">Simple, clean edits — the essentials done right.</div>
+      <div class="pack-from">Start from</div>
+      <div class="pack-price">$21<span>/video</span></div>
+      <ul class="pack-features">
+        <li><span class="pack-check">✓</span> Clean cuts &amp; trimming</li>
+        <li><span class="pack-check">✓</span> Color correction</li>
+        <li><span class="pack-check">✓</span> Simple on-screen text</li>
+      </ul>
+      <a href="#contact" class="pack-cta">Get Started <span class="arrow-circle">→</span></a>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-title">Podcast Clips</div>
+      <div class="pack-tagline">Best moments pulled from long recordings.</div>
+      <div class="pack-from">Start from</div>
+      <div class="pack-price">$45<span>/video</span></div>
+      <ul class="pack-features">
+        <li><span class="pack-check">✓</span> Highlight selection</li>
+        <li><span class="pack-check">✓</span> Waveform &amp; captions</li>
+        <li><span class="pack-check">✓</span> Sized for every platform</li>
+      </ul>
+      <a href="#contact" class="pack-cta">Get Started <span class="arrow-circle">→</span></a>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-title">Talking Head</div>
+      <div class="pack-tagline">Direct-to-camera content, tightened and captioned.</div>
+      <div class="pack-from">Start from</div>
+      <div class="pack-price">$65<span>/video</span></div>
+      <ul class="pack-features">
+        <li><span class="pack-check">✓</span> Jump-cut editing</li>
+        <li><span class="pack-check">✓</span> Auto captions</li>
+        <li><span class="pack-check">✓</span> 48-hour delivery</li>
+      </ul>
+      <a href="#contact" class="pack-cta">Get Started <span class="arrow-circle">→</span></a>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-title">Storytelling</div>
+      <div class="pack-tagline">Narrative-driven edits with voiceover and pacing.</div>
+      <div class="pack-from">Start from</div>
+      <div class="pack-price">$74<span>/video</span></div>
+      <ul class="pack-features">
+        <li><span class="pack-check">✓</span> B-roll &amp; voiceover sync</li>
+        <li><span class="pack-check">✓</span> Custom pacing</li>
+        <li><span class="pack-check">✓</span> Sound design included</li>
+      </ul>
+      <a href="#contact" class="pack-cta">Get Started <span class="arrow-circle">→</span></a>
+    </div>
+
+    <div class="pack-card">
+      <div class="pack-title">Real Estate</div>
+      <div class="pack-tagline">Walkthroughs and property tours, cut to sell the space.</div>
+      <div class="pack-from">Start from</div>
+      <div class="pack-price">$86<span>/video</span></div>
+      <ul class="pack-features">
+        <li><span class="pack-check">✓</span> Vertical &amp; horizontal formats</li>
+        <li><span class="pack-check">✓</span> Price &amp; listing-detail overlays</li>
+        <li><span class="pack-check">✓</span> Fast turnaround</li>
+      </ul>
+      <a href="#contact" class="pack-cta">Get Started <span class="arrow-circle">→</span></a>
+    </div>
+
+  </div>
+
+  <div class="quote-grid">
+
+    <div class="quote-card">
+      <div class="quote-title">YouTube edit</div>
+      <div class="quote-price">$350–500</div>
+      <div class="quote-desc">Per video, end to end. Final price depends on runtime and how much cutting, graphics and cleanup it needs.</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-title">Podcast / interview</div>
+      <div class="quote-price">Per episode</div>
+      <div class="quote-desc">Multicam sync, multi-mic audio merge, full episode edit. Quoted once I see length and camera/mic count.</div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-title">Your Style</div>
+      <div class="quote-price">Tailored</div>
+      <div class="quote-desc">Every creator has a different voice. Pacing, captions, music, and transitions are shaped around what already works for you — not a generic template applied to everyone.</div>
+    </div>
+
+  </div>
+
+
+  <div class="feature-row" style="margin-top: 70px;">
+
+    <div class="feature-visual">
+      <div class="contract-paper">
+        <div class="paper-line w-90"></div>
+        <div class="paper-line w-70"></div>
+        <div class="paper-line w-85"></div>
+        <div class="paper-line w-60"></div>
+        <div class="paper-line w-75"></div>
+        <div class="paper-line spacer"></div>
+        <div class="paper-line w-80"></div>
+        <div class="paper-line w-50"></div>
+        <div class="paper-line w-75"></div>
+        <div class="paper-line w-65"></div>
+        <div class="paper-line w-40"></div>
+        <div class="signature-box">
+          <svg class="signature-svg" viewBox="0 -10 160 100" preserveAspectRatio="xMidYMid meet">
+            <path class="sig-path" d="M6,58 C 14,54 18,48 22,40 C 12,34 8,16 16,6 C 22,-2 30,0 28,14 C 26,30 16,46 8,58 C 2,66 0,76 6,80 C 12,84 20,78 18,66 C 16,50 16,42 34,42 C 58,42 52,14 64,4 C 72,-4 80,-2 76,12 C 72,28 58,46 46,56 C 36,64 40,72 52,68 C 66,63 78,50 92,46 C 106,42 116,50 128,44 C 136,40 140,32 144,26 C 145,25 146.4,24.6 147,25.3" />
+          </svg>
+          <div class="pen-tip">
+            <svg class="pen-svg" viewBox="0 0 40 14">
+              <polygon points="0,7 9,3 9,11" fill="#d9d6d2" />
+              <rect x="9" y="3" width="24" height="8" rx="4" fill="#f0645a" />
+              <rect x="29" y="4.5" width="6" height="5" rx="1.5" fill="#0a0505" opacity="0.35" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-copy">
+      <span class="feature-badge">RETAINER PLAN</span>
+      <h3>Let's make this a long-term thing</h3>
+      <p>Instead of one-off projects, we set up a recurring arrangement — steady monthly work, priority turnaround, and a rate that gets better the longer we work together.</p>
+      <div class="feature-tags">
+        <span class="feature-tag">Priority Turnaround</span>
+        <span class="feature-tag">Locked-in Rate</span>
+        <span class="feature-tag">Ongoing Support</span>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+/* =========================================================
+   BEFORE / AFTER DRAG SLIDER
+   ========================================================= */
+
+document
+  .querySelectorAll('[data-ba]')
+  .forEach(frame => {
+
+    const afterPanel =
+      frame.querySelector('.ba-panel.after');
+
+    const divider =
+      frame.querySelector('.ba-divider');
+
+    const handle =
+      frame.querySelector('.ba-handle');
+
+    const beforeTag =
+      frame.querySelector('.ba-tag.before-tag');
+
+    const afterTag =
+      frame.querySelector('.ba-tag.after-tag');
+
+    let dragging = false;
+
+
+    function setPosition(percent) {
+
+      const clamped =
+        Math.min(
+          Math.max(percent, 0),
+          100
+        );
+
+      afterPanel.style.clipPath =
+        `inset(0 0 0 ${clamped}%)`;
+
+      divider.style.left =
+        clamped + '%';
+
+      handle.style.left =
+        clamped + '%';
+
+      beforeTag.style.left =
+        clamped + '%';
+
+      afterTag.style.left =
+        clamped + '%';
+    }
+
+
+    function positionFromEvent(clientX) {
+
+      const rect =
+        frame.getBoundingClientRect();
+
+      const percent =
+        ((clientX - rect.left) / rect.width) * 100;
+
+      setPosition(percent);
+    }
+
+
+    handle.addEventListener(
+      'pointerdown',
+      e => {
+
+        dragging = true;
+
+        handle.setPointerCapture(
+          e.pointerId
+        );
+      }
+    );
+
+
+    frame.addEventListener(
+      'pointermove',
+      e => {
+
+        if (dragging) {
+          positionFromEvent(e.clientX);
+        }
+      }
+    );
+
+
+    window.addEventListener(
+      'pointerup',
+      () => {
+        dragging = false;
+      }
+    );
+
+
+    frame.addEventListener(
+      'click',
+      e => {
+
+        if (e.target === handle) {
+          return;
+        }
+
+        positionFromEvent(e.clientX);
+      }
+    );
+
+
+    setPosition(12.5); // default: 1/8 before, 7/8 after
+
+  });
+
+
+/* =========================================================
+   ABOUT PHOTO FADE-IN
+   ========================================================= */
+
+const aboutPhoto =
+  document.querySelector('.about-photo');
+
+if (aboutPhoto) {
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            aboutPhoto.classList.add(
+              'in-view'
+            );
+
+            observer.unobserve(
+              aboutPhoto
+            );
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.3
+      }
+    );
+
+  observer.observe(aboutPhoto);
+}
+
+/* =========================================================
+   SCROLL REVEAL (sections fade + rise in as you scroll to them)
+   ========================================================= */
+
+const revealEls = document.querySelectorAll('.reveal');
+
+try {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px'
+  });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+} catch (err) {
+  // IntersectionObserver unsupported or failed - just show everything
+  revealEls.forEach(el => el.classList.add('in-view'));
+}
+
+// Safety net: whatever happens above, nothing should stay invisible forever.
+setTimeout(() => {
+  revealEls.forEach(el => el.classList.add('in-view'));
+}, 3000);
+</script>
+
+
+<!-- =========================================================
+     FAQ
+     ========================================================= -->
+
+<section class="faq-section" id="faq">
+
+  <p class="section-eyebrow">
+    FAQ
+  </p>
+
+  <h2 class="section-heading">
+    Common Questions
+  </h2>
+
+  <div class="faq-list">
+
+    <details class="faq-item">
+
+      <summary>
+        How fast is turnaround?
+        <span class="faq-icon">+</span>
+      </summary>
+
+      <div class="faq-answer">
+        Most short-form edits are delivered within 2–4 days,
+        depending on volume and complexity. Longer or multi-camera
+        projects are usually quoted individually.
+      </div>
+
+    </details>
+
+
+    <details class="faq-item">
+
+      <summary>
+        How many revisions do I get?
+        <span class="faq-icon">+</span>
+      </summary>
+
+      <div class="faq-answer">
+        Every project includes revision rounds until you're happy
+        with the final cut. Small tweaks (timing, captions, music)
+        are always included at no extra cost.
+      </div>
+
+    </details>
+
+
+    <details class="faq-item">
+
+      <summary>
+        What footage do you need from me?
+        <span class="faq-icon">+</span>
+      </summary>
+
+      <div class="faq-answer">
+        Raw clips in the highest quality you have, plus any brief,
+        reference links, or brand guidelines. If you're not sure
+        what to send, I'll walk you through it.
+      </div>
+
+    </details>
+
+
+    <details class="faq-item">
+
+      <summary>
+        Do you handle captions and sound design?
+        <span class="faq-icon">+</span>
+      </summary>
+
+      <div class="faq-answer">
+        Yes — captions, sound design, music, and color grading are
+        all part of the standard edit, not add-ons.
+      </div>
+
+    </details>
+
+
+    <details class="faq-item">
+
+      <summary>
+        Can we work together on a monthly basis?
+        <span class="faq-icon">+</span>
+      </summary>
+
+      <div class="faq-answer">
+        Yes, monthly plans are available for ongoing content needs,
+        with a discounted rate per video — see the pricing section
+        above for details.
+      </div>
+
+    </details>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FINAL CTA
+     ========================================================= -->
+
+<section class="final-cta-section" id="contact">
+
+  <div class="cta-grid">
+
+    <div class="cta-left">
+
+      <span class="cta-badge">★ GET IN TOUCH</span>
+
+      <h2>
+        Let's make your next video
+        <span class="accent">impossible to scroll past.</span>
+      </h2>
+
+      <p>
+        Tell me about your project. I'll get back to you within a day
+        with a timeline and a price.
+      </p>
+
+      <ul class="cta-checklist">
+
+        <li>
+          <span class="cta-check-icon">✓</span>
+          First draft delivered within 48 hours
+        </li>
+
+        <li>
+          <span class="cta-check-icon">✓</span>
+          Unlimited revisions until you're happy
+        </li>
+
+        <li>
+          <span class="cta-check-icon">✓</span>
+          Simple, transparent pricing — no hidden fees
+        </li>
+
+      </ul>
+
+      <div class="cta-status">
+        <span class="status-dot"></span>
+        Usually replies within 24 hours
+      </div>
+
+    </div>
+
+
+    <div class="cta-right">
+
+      <div class="cta-right-header">
+        <h3>Reach Me Directly</h3>
+        <span class="cta-response-note">
+          <span class="status-dot"></span>
+          ~24H RESPONSE
+        </span>
+      </div>
+
+      <div class="contact-methods">
+
+        <a href="https://x.com/mmvidedit" target="_blank" rel="noopener" class="contact-method">
+          <span class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7.1l-5.5-7.2L4.3 22H1.2l8.1-9.3L1 2h7.3l5 6.7L18.9 2zm-1.2 18h1.9L7.4 4H5.4l12.3 16z"/></svg>
+          </span>
+          <span class="contact-method-text">
+            <span class="contact-method-name">X</span>
+            <span class="contact-method-handle">@mmvidedit</span>
+          </span>
+        </a>
+
+        <a href="https://t.me/mmvidedit" target="_blank" rel="noopener" class="contact-method">
+          <span class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M21.9 4.3 18.6 20c-.2 1.1-1 1.3-1.9.8l-5.3-3.9-2.6 2.5c-.3.3-.5.5-1 .5l.4-5.4L18 6.5c.5-.4-.1-.6-.7-.3L7 12.4l-5.2-1.6c-1.1-.3-1.1-1.1.2-1.7L20.5 2.9c.9-.4 1.7.2 1.4 1.4z"/></svg>
+          </span>
+          <span class="contact-method-text">
+            <span class="contact-method-name">Telegram</span>
+            <span class="contact-method-handle">@mmvidedit</span>
+          </span>
+        </a>
+
+        <!-- WhatsApp: wa.me links need a phone number, not a handle.
+             Swap the href below for wa.me/<your number> once you have it. -->
+        <a href="https://wa.me/" target="_blank" rel="noopener" class="contact-method">
+          <span class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1s-.7.8-.9 1c-.2.2-.3.2-.6.1-.2-.1-1-.4-2-1.2-.7-.6-1.2-1.4-1.4-1.7-.1-.2 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4s-.6-1.5-.8-2c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3z"/></svg>
+          </span>
+          <span class="contact-method-text">
+            <span class="contact-method-name">WhatsApp</span>
+            <span class="contact-method-handle">@mmvidedit</span>
+          </span>
+        </a>
+
+        <a href="https://instagram.com/mmvidedit" target="_blank" rel="noopener" class="contact-method">
+          <span class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 2 .2 2.4.4.6.2 1 .5 1.5 1 .4.4.7.8 1 1.5.2.5.3 1.2.4 2.4.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 2-.4 2.4-.2.6-.5 1-1 1.5-.4.4-.8.7-1.5 1-.5.2-1.2.3-2.4.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-2-.2-2.4-.4-.6-.2-1-.5-1.5-1-.4-.4-.7-.8-1-1.5-.2-.5-.3-1.2-.4-2.4C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-2 .4-2.4.2-.6.5-1 1-1.5.4-.4.8-.7 1.5-1 .5-.2 1.2-.3 2.4-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1 0-1.6.2-1.9.3-.5.2-.8.4-1.2.7-.4.4-.6.7-.7 1.2-.1.4-.3 1-.3 2C3.2 8.5 3.2 8.9 3.2 12s0 3.5.1 4.7c0 1 .2 1.6.3 2 .2.5.4.8.7 1.2.4.4.7.6 1.2.7.4.1 1 .3 2 .3 1.2.1 1.5.1 4.7.1s3.5 0 4.7-.1c1 0 1.6-.2 2-.3.5-.2.8-.4 1.2-.7.4-.4.6-.7.7-1.2.1-.4.3-1 .3-2 .1-1.2.1-1.5.1-4.7s0-3.5-.1-4.7c0-1-.2-1.6-.3-2-.2-.5-.4-.8-.7-1.2-.4-.4-.7-.6-1.2-.7-.4-.1-1-.3-2-.3-1.2-.1-1.5-.1-4.7-.1zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4zm5.2-2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+          </span>
+          <span class="contact-method-text">
+            <span class="contact-method-name">Instagram</span>
+            <span class="contact-method-handle">@mmvidedit</span>
+          </span>
+        </a>
+
+        <a href="https://tiktok.com/@mmvidedit" target="_blank" rel="noopener" class="contact-method">
+          <span class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M16.7 2h-3.4v13.5c0 1.5-1.2 2.7-2.7 2.7s-2.7-1.2-2.7-2.7 1.2-2.7 2.7-2.7c.3 0 .6 0 .8.1V9.4c-.3 0-.5-.1-.8-.1-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6V8.6c1.2.9 2.7 1.4 4.3 1.4V6.6c-2.4 0-4.2-1.9-4.2-4.2V2z"/></svg>
+          </span>
+          <span class="contact-method-text">
+            <span class="contact-method-name">TikTok</span>
+            <span class="contact-method-handle">@mmvidedit</span>
+          </span>
+        </a>
+
+        <a href="mailto:mmvidedit@gmail.com" class="contact-method">
+          <span class="contact-method-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 5h20a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm18.4 2H3.6l8.4 6.3L20.4 7zM3 8.3V18h18V8.3l-9 6.7-9-6.7z"/></svg>
+          </span>
+          <span class="contact-method-text">
+            <span class="contact-method-name">Email</span>
+            <span class="contact-method-handle">mmvidedit@gmail.com</span>
+          </span>
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="site-footer">
+
+  <div class="footer-top">
+
+    <div>
+
+      <div class="footer-brand">
+        m<span>m</span>
+      </div>
+
+      <p class="footer-tagline">
+        Short-form video editing for creators and brands
+        who want to stop the scroll.
+      </p>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-col-title">
+        NAVIGATE
+      </div>
+
+      <ul class="footer-links">
+
+        <li>
+          <a href="#styles">
+            Work
+          </a>
+        </li>
+
+        <li>
+          <a href="#styles">
+            Styles
+          </a>
+        </li>
+
+        <li>
+          <a href="#pricing">
+            Pricing
+          </a>
+        </li>
+
+        <li>
+          <a href="#faq">
+            FAQ
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+
+    <div>
+
+      <div class="footer-col-title">
+        CONNECT
+      </div>
+
+      <ul class="footer-links">
+
+        <li>
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="https://tiktok.com/"
+            target="_blank"
+            rel="noopener"
+          >
+            TikTok
+          </a>
+        </li>
+
+        <li>
+          <a href="mailto:you@example.com">
+            Email
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <span>
+      &copy; 2026 mm. All rights reserved.
+    </span>
+
+    <span>
+      Built &amp; edited with care.
+    </span>
+
+  </div>
+
+</footer>
+
+
+</body>
+</html>
