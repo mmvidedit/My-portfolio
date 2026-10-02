@@ -9,6 +9,40 @@
 <title>Video Editor Portfolio</title>
 
 <style>
+
+ .page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.page-loader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-spinner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid rgba(240,100,90,0.15);
+  border-top-color: #f0645a;
+  animation: loaderSpin 0.8s linear infinite;
+}
+
+@keyframes loaderSpin {
+  to { transform: rotate(360deg); }
+}
+
+body.is-loading {
+  overflow: hidden;
+}
+ 
   * {
     margin: 0;
     padding: 0;
@@ -2312,7 +2346,25 @@
 </head>
 
 <body>
+<div id="pageLoader" class="page-loader">
+  <div class="loader-spinner"></div>
+</div>
+ <script>
+  document.body.classList.add('is-loading');
 
+  function hidePageLoader() {
+    const loader = document.getElementById('pageLoader');
+    if (!loader) return;
+    loader.classList.add('loaded');
+    document.body.classList.remove('is-loading');
+    setTimeout(() => { loader.style.display = 'none'; }, 600);
+  }
+
+  window.addEventListener('load', hidePageLoader);
+
+  // safety net: اگه به هر دلیلی چیزی لود نشد، بعد از ۸ ثانیه هم مجبوری نشون بده
+  setTimeout(hidePageLoader, 8000);
+</script>
 
 <!-- ================= HERO ================= -->
 
